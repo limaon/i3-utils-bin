@@ -173,9 +173,7 @@ if pamixer ${DEVICE} --get-mute | grep -q "true"; then
     MUTED=1
 fi
 
-############################################################
 # Get notification icon/text
-############################################################
 if [ "${MUTED}" = "1" ]; then
     ICON_STRING="volume-level-muted"
     TEXT_STRING="Volume: MUTED"
@@ -191,4 +189,11 @@ fi
 if [ "${ACTION}" = "up" ] || [ "${ACTION}" = "down" ]; then
     notify-send "${TEXT_STRING}" -i ${ICON_STRING} -t ${NOTIFICATION_TIMEOUT} -u low -h int:value:${PERCENT} -h string:synchronous:volume
 fi
-exit
+
+############################################################
+# Mode "mute" and "toggle"
+############################################################
+if [ "${ACTION}" = "mute" ] || [ "${ACTION}" = "toggle" ]; then
+    notify-send "${TEXT_STRING}" -i ${ICON_STRING} -t ${NOTIFICATION_TIMEOUT} -u low -h int:value:${PERCENT} -h string:synchronous:volume
+fi
+

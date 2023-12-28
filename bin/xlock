@@ -146,10 +146,10 @@ resume_notify() {
 	pkill -u "${USER}" -USR2 "${_notify_daemon}"
 }
 mute_sound() {
-	if ! _err="$( amixer sset 'Master' mute 2>&1 >/dev/null )"; then
-		error "${_err}"
-		exit 1
-	fi
+    if ! _err="$(pamixer --toggle-mute true 2>&1 >/dev/null)"; then
+        error "${_err}"
+        exit 1
+    fi
 }
 
 
@@ -233,8 +233,8 @@ if ! command -v i3lock >/dev/null 2>&1; then
 	exit 1
 fi
 if [ "${MUTE}" = "1" ]; then
-	if ! command -v amixer >/dev/null 2>&1; then
-		error "binary 'amixer' not found but required when using -m option."
+	if ! command -v pamixer >/dev/null 2>&1; then
+		error "binary 'pamixer' not found but required when using -m option."
 		exit 1
 	fi
 fi
