@@ -4,7 +4,7 @@
 ### System variables
 ###
 MY_NAME="$( basename "${0}" )"
-MY_LOG_DIR="${HOME}/.log"
+MY_LOG_DIR="${HOME}/cache/log"
 MY_LOG_FILE="${MY_LOG_DIR}/${MY_NAME}.err"
 MY_DATE="$( date '+%Y-%m-%d' )"
 MY_TIME="$( date '+%H:%M:%S' )"

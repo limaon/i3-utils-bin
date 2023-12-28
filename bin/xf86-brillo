@@ -9,6 +9,7 @@
 
 ACTION=
 INTERVAL="5"
+NOTIFICATION_TIMEOUT=1000
 COMMAND=
 
 
@@ -108,9 +109,9 @@ fi
 ############################################################
 
 if [ "${ACTION}" = "up" ]; then
-	COMMAND="xbacklight -inc ${INTERVAL}"
+	COMMAND="brillo -A ${INTERVAL}"
 else
-	COMMAND="xbacklight -dec ${INTERVAL}"
+	COMMAND="brillo -U ${INTERVAL}"
 fi
 
 
@@ -125,7 +126,7 @@ eval "${COMMAND}"
 # Parse output
 ############################################################
 
-CURRENT="$( printf "%d\n" "$(xbacklight -get)" 2>/dev/null )"
+CURRENT="$( printf "%d\n" "$(brillo -G)" 2>/dev/null )"
 MAX="100"
 PERCENT=$(( 100 * CURRENT / MAX))
 
@@ -135,36 +136,21 @@ PERCENT=$(( 100 * CURRENT / MAX))
 ############################################################
 
 if [ ${PERCENT} -eq 0 ]; then
-	ICON_STRING="notification-display-brightness-off"
+	ICON_STRING="display-brightness-off-symbolic"
 elif [ ${PERCENT} -lt 33 ]; then
-	ICON_STRING="notification-display-brightness-low"
+	ICON_STRING="display-brightness-low-symbolic"
 elif [ ${PERCENT} -lt 66 ]; then
-	ICON_STRING="notification-display-brightness-medium"
+        ICON_STRING="display-brightness-medium-symbolic"
 elif [ ${PERCENT} -lt 99 ]; then
-	ICON_STRING="notification-display-brightness-high"
+	ICON_STRING="display-brightness-high-symbolic"
 else
-	ICON_STRING="notification-display-brightness-full"
+	ICON_STRING="display-brightness-high-symbolic"
 fi
-TEXT_STRING="Display brightness: ${PERCENT}%"
-
-i=$(( PERCENT / 10 ))
-j=$(( 10 - i ))
-TEXT_STRING="mon: "
-while [ $i -gt 0 ]; do
-	TEXT_STRING="${TEXT_STRING}–"
-	i=$(( i - 1 ))
-done
-TEXT_STRING="${TEXT_STRING}|"
-while [ $j -gt 0 ]; do
-	TEXT_STRING="${TEXT_STRING}–"
-	j=$(( j - 1 ))
-done
-
-TEXT_STRING="${TEXT_STRING} ${PERCENT}%"
+TEXT_STRING="Brightness: ${PERCENT}%"
 
 ############################################################
 # Send notification
 ############################################################
 
-notify-send "${TEXT_STRING}" -i ${ICON_STRING} -h int:value:${PERCENT} -h string:synchronous:brightness
+notify-send "${TEXT_STRING}" -i ${ICON_STRING} -t ${NOTIFICATION_TIMEOUT} -u low -h int:value:${PERCENT} -h string:synchronous:brightness
 exit

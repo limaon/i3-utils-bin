@@ -4,10 +4,11 @@
 ### System variables
 ###
 MY_NAME="$( basename "${0}" )"
-MY_LOG_DIR="${HOME}/.log"
+MY_LOG_DIR="${HOME}/cache/log"
 MY_LOG_FILE="${MY_LOG_DIR}/${MY_NAME}.err"
 MY_DATE="$( date '+%Y-%m-%d' )"
 MY_TIME="$( date '+%H:%M:%S' )"
+FORMAT="HEX"
 
 if [ ! -d "${MY_LOG_DIR}" ]; then
 	mkdir -p "${MY_LOG_DIR}"
@@ -39,17 +40,25 @@ error() {
 ##
 ################################################################################
 
-if ! command -v grabc >/dev/null 2>&1; then
-	error "Binary 'grabc' not available"
+if ! command -v xclip >/dev/null 2>&1; then
+	error "Binary 'xclip' not available"
 	exit 1
 fi
 
-if ! command -v zenity >/dev/null 2>&1; then
-	error "Binary 'zenity' not available."
+if ! command -v xcolor >/dev/null 2>&1; then
+	error "Binary 'xcolor' not available."
 	exit 1
 fi
 
 
-color="$( grabc )"
+color=$(xcolor -P 100 -f "$FORMAT"!)
 
-zenity --color-selection --color="${color}"
+if [[ "$color" ]]; then
+    # Copy color code to clipboard
+    echo "$color" | tr -d "\n" | xclip -selection clipboard
+    # Notify about it
+    dunstify -u low --replace=9991 -i "colorgrab" "$color, copied to clipboard."
+else
+    echo "Failed to pick color."
+    exit 1
+fi

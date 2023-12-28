@@ -24,31 +24,23 @@ Binary utilities for a minimalistic [i3](https://github.com/i3/i3) setup.
 | Tool | Description |
 |------|-------------|
 | [xf86-audio](bin/xf86-audio)             | Increase, decrease and mute currently selected (active) audio device. Supports notifications. |
-| [xf86-backlight](bin/xf86-backlight)     | Adjust your screens backlight. Supports notifications. |
+| [xf86-brillo](bin/xf86-brillo)           | Adjust your screens backlight. Supports notifications. |
 
 #### X tools
 
 | Tool | Description |
 |------|-------------|
 | [xcolorpick](bin/xcolorpick) | Zenity based RGB color picker for any pixel on your screen. |
-| [ximage](bin/ximage)         | Wrapper for [sxiv](https://github.com/muennich/sxiv) that allows for opening multiple files automatically within a directory. |
-| [ximage.desktop](applications/ximage.desktop) | Desktop application file for `ximage` registering png, jpg, jpeg and gif. |
 | [xkiller](bin/xkiller)       | Wrapper for `xkill`. Xkill itself cannot be terminated when started from a hotkey. That is where `xkiller` comes into play. It can be terminated simply starting it again. (via hotkey, dunst, rofi or via the command line). |
 | [xlock](bin/xlock)           | Wrapper for `i3lock` with blurred screenshot and optional custom overlay which will also suspend any notifications during lock and can be run in the background without locking the script itself, so that you can run another script afterwards (such as [system-suspend](bin/system-suspend)). |
 | [xscreenshot](bin/xscreenshot) | Wrapper for `scrot` or `maim`. |
-
-#### Rofi/Dmenu tools
-
-| Tool | Description |
-|------|-------------|
-| [rcalc](bin/rcalc) | A wrapper for `qalc` adding the ability to syncronize every result accross all existing clipboards. |
 
 
 ## Integration
 
 #### Requirements
 
-* [amixer](https://linux.die.net/man/1/amixer)
+* [pamixer](https://man.archlinux.org/man/pamixer.1.en)
 * [convert](https://linux.die.net/man/1/convert)
 * [grabc](http://www.muquit.com/muquit/software/grabc/grabc.html)
 * [i3lock](https://github.com/i3/i3lock)
@@ -56,7 +48,7 @@ Binary utilities for a minimalistic [i3](https://github.com/i3/i3) setup.
 * [scrot](https://man.cx/scrot) or [maim](https://github.com/naelstrof/maim)
 * [sxiv](https://github.com/muennich/sxiv)
 * [systemd](https://github.com/systemd/systemd) or [ibus](https://github.com/ibus/ibus)
-* [xbacklight](https://linux.die.net/man/1/xbacklight)
+* [brillo](https://gitlab.com/cameronnemo/brillo)
 * [xsel](https://github.com/kfish/xsel)
 * [xkill](https://linux.die.net/man/1/xkill)
 * [zenity](https://github.com/GNOME/zenity)
@@ -125,13 +117,6 @@ bindsym $mod+Sys_Req exec "xscreenshot -m selection"
 
 # Screenshot (active window)
 bindsym $mod+Shift+Sys_Req exec "xscreenshot -m window"
-
-
-###
-### Rofi calculator
-###
-
-bindsym $mod+space exec "exec rofi -show combi -combi-modi window,drun,run -modi combi,'calc:rcalc' -sidebar-mode"
 ```
 
 ## Credits
